@@ -20,13 +20,13 @@
 
 .table-shoot-wrap {
     float: left;
-    margin-left:100px;
+    margin-left:50px;
     height: 405px;
     
 }
 
 .table-shoot {
-    width:auto;
+    width:20%;
     float : left;
     margin : 20px;
 }
