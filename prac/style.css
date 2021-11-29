@@ -1,0 +1,109 @@
+
+.list {
+    list-style: none;
+    display: block;
+    margin : 5px;
+    border: solid 5px black;
+}
+
+.icerink {
+    border : 3px solid black;
+    max-width: 800px;
+    min-width: 800px;
+    float: left;
+}
+
+.rink-wrap {
+    float: left;
+    margin-left:20px;
+}
+
+.table-shoot-wrap {
+    float: left;
+    margin-left:100px;
+    height: 405px;
+    
+}
+
+.table-shoot {
+    width:auto;
+    float : left;
+    margin : 20px;
+}
+
+.table {
+    vertical-align: middle;
+}
+
+.form {
+    margin:20px;
+    border : 3px solid lightslategray;
+    padding : 20px;
+}
+
+.table-wrap{
+    text-align: center;
+    width : 70%;
+    margin: 0 auto;
+    padding: 10px
+}
+
+.form-wrap {
+    margin : 20px;
+    padding: 15px;
+}
+
+.btn_wrap {
+    margin : 10px;
+    padding : 10px;
+
+}
+
+.image {
+    position: relative;
+}
+
+.wrap {
+    margin : 5px;
+    width : 110px;
+}
+.image .text {
+    position : absolute;
+    color : white;
+    top:40px;
+    left: 43px;
+}
+
+.title {
+    text-align: center;
+    font-family: 'AppleGothic';
+    margin : 15px;
+}
+
+.row {
+    border : 2px solid lightslategrey;
+    margin : 20px;
+    text-align: center;
+}
+
+.form-check {
+    float: left;
+    margin : 30px;
+}
+
+.btn-stas {
+    float: left;
+}
+
+.btn-dark {
+    margin : 10px;
+}
+
+.checkwrap {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.plot-container {
+    text-align: center;
+}
