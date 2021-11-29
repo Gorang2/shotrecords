@@ -8,7 +8,7 @@
     <title>Shooting Record Program - Recording</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -46,7 +46,6 @@
     </div>
     <div class="rink-wrap">
         <img class="icerink"  draggable="false" src="icerink.jpeg"/>
-    </div>
     <div class='table-shoot-wrap overflow-auto'>
         <table class="table table-shoot table-hover">
             <thead class="thead">
@@ -61,12 +60,15 @@
             </tbody>
         </table>
     </div>  
+</div>
     <script>
+       
         const table = document.querySelector(".table");
         let recorded = JSON.parse(localStorage.getItem("recorded"));
         let idx = JSON.parse(localStorage.getItem('idx'));
         const check = document.querySelector(".checkwrap");
         let period = localStorage.getItem("period");
+        
        
         if(period==null){
             period = "1p";
@@ -183,12 +185,13 @@
                             }
 
         const list = document.querySelector(".row");
+
         let pickedplayer = null;
         // dragstart, dragover, drop 3가지 이벤트
         list.addEventListener("dragstart", (event)=>{
             pickedplayer = event.target;
         })
-
+    
         list.addEventListener("dragover", (event)=>{
             event.preventDefault(); // 기본 기능 제거: 드롭이 가능케 함
             //console.log(event);
@@ -197,15 +200,38 @@
         const rink = document.querySelector(".icerink");
 
         rink.addEventListener("dragover", (e)=>{
-            e.preventDefault()
+            e.preventDefault();
 
         })
-        rink.addEventListener("drop", (e)=>{
+        list.addEventListener("touchstart", (e)=>{
+            pickedplayer = e.target.parentNode;
+            console.log(pickedplayer);
+            e.preventDefault();
+        })
+        list.addEventListener("touchmove", (e)=>{
+            console.log(e);
+            let touch = e.touches[0] || e.changedTouches[0];
+            x = touch.clientX;
+            y = touch.clientY;
+            let hover = document.createElement("img");
+            hover.src = "jersy.png";
+            hover.style.top = y-50+"px";
+            hover.style.left = x-50+"px";
+            document.body.appendChild(hover);
+            
+
+        })
+        list.addEventListener("touchend", (e)=>{
+            let touch = e.touches[0] || e.changedTouches[0];
+            x = touch.clientX;
+            y = touch.clientY;
             idx = JSON.parse(localStorage.getItem('idx'));
             rect = rink.getBoundingClientRect();
-            let y = ((rect.bottom-e.y)/405).toFixed(3);
-            let x = ((e.x-rect.left)/405).toFixed(3);
-            console.log(x,y);
+            if(x<rect.left || x>rect.right || y<rect.top || y>rect.bottom){
+                return;
+            }
+            y = ((rect.bottom-y)/405).toFixed(3);
+            x = ((x-rect.left)/405).toFixed(3);
             let playernum = pickedplayer.querySelector(".text").innerHTML;
             let playername = JSON.parse(localStorage.getItem('playerinfo'))[playernum];
             let p = period;
@@ -262,12 +288,77 @@
             idx ++;
             localStorage.setItem("idx", idx);
             localStorage.setItem("recorded", JSON.stringify(recorded));
-        })
+            
+            });
+
+        rink.addEventListener("drop", (e)=>drop(e));
+
+        function drop(e){
+            idx = JSON.parse(localStorage.getItem('idx'));
+            rect = rink.getBoundingClientRect();
+            let y = ((rect.bottom-e.y)/405).toFixed(3);
+            let x = ((e.x-rect.left)/405).toFixed(3);
+            let playernum = pickedplayer.querySelector(".text").innerHTML;
+            let playername = JSON.parse(localStorage.getItem('playerinfo'))[playernum];
+            let p = period;
+
+            let newRow = document.createElement("tr");
+            let column_num = document.createElement("td");
+            let column_name = document.createElement("td");
+            let column_idx = document.createElement("td");
+            let column_btn = document.createElement("td");
+
+            let table_idx = document.createTextNode(idx);
+            column_idx.appendChild(table_idx);
+            
+            let num = document.createTextNode(playernum);
+            column_num.appendChild(num);
+            let name = document.createTextNode(playername);
+            column_name.appendChild(name);
     
 
+            let btn_del = document.createElement("button");
+            btn_del.className = "btn btn-danger btn-sm";
+            btn_del.innerHTML = "기록 삭제";
+            btn_del.addEventListener("click", (event)=>{
+                let btn_to_del = event.target;
+                let row_to_del = btn_to_del.parentNode.parentNode;
+                let del_idx = row_to_del.firstChild.innerHTML;
+                for(let i=JSON.parse(del_idx); i<=Object.keys(recorded).length; i++){
+                    console.log(recorded[i]);
+                    if (i==Object.keys(recorded).length){
+                        delete recorded[i];
+                    } else {
+                        let tmp = JSON.parse(JSON.stringify(recorded[i+1]));
+                        recorded[i] = tmp;
+                                        
+                    }
+                    localStorage.setItem("recorded", JSON.stringify(recorded));
+
+                }
+                idx -= 1;
+                localStorage.setItem('idx',idx);
+                window.location.reload();
+            })
+        
+            column_btn.appendChild(btn_del);
+            
+            newRow.appendChild(column_idx);
+            newRow.appendChild(column_num);
+            newRow.appendChild(column_name);
+            newRow.appendChild(column_btn);
+
+            recorded[idx] = {"name":playername, "num":playernum, "x":x, "y":y, "period":p};
+
+            document.querySelector("tbody").appendChild(newRow);
+            idx ++;
+            localStorage.setItem("idx", idx);
+            localStorage.setItem("recorded", JSON.stringify(recorded));
+        }
     </script>
     
     </div>
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
