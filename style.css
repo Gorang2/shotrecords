@@ -8,27 +8,26 @@
 
 .icerink {
     border : 3px solid black;
-    max-width: 800px;
-    min-width: 800px;
+    width : 60%;
+    height : 60%;
+    margin : 20px;
     float: left;
 }
 
 .rink-wrap {
     float: left;
-    margin-left:20px;
+
 }
 
 .table-shoot-wrap {
-    float: left;
-    margin-left:50px;
-    height: 405px;
+    float: right;
+    height: 350px;
     
 }
 
 .table-shoot {
     width:20%;
-    float : left;
-    margin : 20px;
+    margin-right : 20px;
 }
 
 .table {
