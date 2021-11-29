@@ -217,13 +217,16 @@
             let touch = e.touches[0] || e.changedTouches[0];
             x = touch.clientX;
             y = touch.clientY;
+            console.log(x, y);
             idx = JSON.parse(localStorage.getItem('idx'));
             rect = rink.getBoundingClientRect();
+            console.log(rect.left, rect.top);
             if(x<rect.left || x>rect.right || y<rect.top || y>rect.bottom){
+                console.log("ERR");
                 return;
             }
-            y = ((rect.bottom-y)/405).toFixed(3);
-            x = ((x-rect.left)/405).toFixed(3);
+            y = ((rect.bottom-y)/rect.height).toFixed(3);
+            x = ((x-rect.left)/rect.height).toFixed(3);
             let playernum = pickedplayer.querySelector(".text").innerHTML;
             let playername = JSON.parse(localStorage.getItem('playerinfo'))[playernum];
             let p = period;
@@ -288,8 +291,8 @@
         function drop(e){
             idx = JSON.parse(localStorage.getItem('idx'));
             rect = rink.getBoundingClientRect();
-            let y = ((rect.bottom-e.y)/405).toFixed(3);
-            let x = ((e.x-rect.left)/405).toFixed(3);
+            let y = ((rect.bottom-e.y)/rect.height).toFixed(3);
+            let x = ((e.x-rect.left)/rect.height).toFixed(3);
             let playernum = pickedplayer.querySelector(".text").innerHTML;
             let playername = JSON.parse(localStorage.getItem('playerinfo'))[playernum];
             let p = period;
