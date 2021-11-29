@@ -1,164 +1,359 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shooting Record Program</title>
+    <title>Shooting Record Program - Recording</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
 </head>
 
 <body>
-  <div class="form-wrap">
-    <div class="form">
-      <form>
-        <div class="form-row align-items-center">
-          <div class="col-auto">
-            <label class="sr-only" for="inlineFormInput">선수 이름</label>
-            <input type="text" class="form-control mb-2" autofocus='true' id="playername" placeholder="Player Name">
+    <h1 style="text-align: center; margin:20px;">Shooting Record</h1>
+    <div class="row">
+
+    </div>
+    <div class="checkwrap">
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="flexRadioDefault" id="1p">
+            <label class="form-check-label" for="flexRadioDefault1">
+              1st Period
+            </label>
           </div>
-          <div class="col-auto">
-            <label class="sr-only" for="playernum">선수 등번호</label>
-            <div class="input-group mb-2">
-              <div class="input-group-prepend">
-                <div class="input-group-text">#</div>
-              </div>
-              <input type="text" class="form-control" id="playernum" placeholder="Player Number">
-              <button type="button" class="btn btn-danger btn-block" onclick="delinfo(event);">선택된 선수 삭제</button>
-            </div>
-
-            <button type="submit" class="btn btn-primary btn-block" onclick="saveinfo();">선수 등록</button>
-            <button type="button" class="btn btn-danger" onclick="clearinfo();">로스터 비우기</button>
-            <button type="button" class="btn btn-success" onclick="moveTo();">기록 시작</button>
-        </div>
-      </form>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="flexRadioDefault" id="2p">
+            <label class="form-check-label" for="flexRadioDefault1">
+              2nd period
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="flexRadioDefault" id="3p">
+            <label class="form-check-label" for="flexRadioDefault1">
+              3rd Period
+            </label>
+          </div><div class="form-check">
+            <input class="form-check-input" type="radio" name="flexRadioDefault" id="ot">
+            <label class="form-check-label" for="flexRadioDefault1">
+              Overtime
+            </label>
+          </div>
+        <button type="button btn-stasmove" class="btn btn-dark" onclick="window.open('shot_table.html')">슈팅 기록지</button>
+        <button type="button btn-stasmove" class="btn btn-dark" onclick="window.open('shot_scatter.html')" >슈팅 분포도</button>
+        <button type="button btn-stasmove" class="btn btn-dark" onclick="window.open('shot_pie.html')">팀 슈팅 비율</button>
     </div>
-  </div>
-  <div style="width: 100%; text-align: center;"><h5>등록된 선수</h5></div>
-  <div class="table-wrap" style="width: 50%;">
-    <table class="table table-hover">
-        <thead class="thead">
-          <tr>
-            <th scope="col">Index</th>
-            <th scope="col">Number</th>
-            <th scope="col">Name</th>
-          </tr>
-        </thead>
-        <tbody>
-        </tbody>
-      </table>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <div class="rink-wrap">
+        <img class="icerink"  draggable="false" src="icerink.jpeg"/>
+    <div class='table-shoot-wrap overflow-auto'>
+        <table class="table table-shoot table-hover table-bordered">
+            <thead class="thead">
+            <tr>
+                <th scope="col">Index</th>
+                <th scope="col">Number</th>
+                <th scope="col">Name</th>
+                <th scope="col">Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>  
+</div>
     <script>
-
-      const table = document.querySelector('.table');
-      
-      playerinfo = JSON.parse(localStorage.getItem("playerinfo"));
-      if(playerinfo==null){
-        localStorage.setItem('playerinfo', JSON.stringify({}));
-        playerinfo = {};
-      }
-      
-      
- 
-      function delinfo(){
-        let key = document.querySelector("#playernum").value;
-        if(key=='' || !key){
-          alert("해당 등번호의 선수가 존재하지 않습니다.");
-        } else {
-          delete playerinfo[key];
-          alert("삭제가 완료되었습니다.")
-          localStorage.setItem("playerinfo", JSON.stringify(playerinfo));
-          window.location.reload();
+       
+        const table = document.querySelector(".table");
+        let recorded = JSON.parse(localStorage.getItem("recorded"));
+        let idx = JSON.parse(localStorage.getItem('idx'));
+        const check = document.querySelector(".checkwrap");
+        let period = localStorage.getItem("period");
+        
+       
+        if(period==null){
+            period = "1p";
         }
+        document.getElementById(period).click();
 
-      }
-
-      function clearinfo(){
-        if(confirm("선수 전체 목록을 삭제하시겠습니까?")==true){
-          localStorage.clear();
-          playerinfo = {};
-          localStorage.setItem("playerinfo", JSON.stringify(playerinfo));
-          alert("비우기 완료");
-          window.location.reload();
-        } else {
-          return ;
+        check.addEventListener("click", (e)=>{
+            if(e.target.className=="form-check-input"){
+                period = e.target.id;
+                console.log(period);
+                localStorage.setItem("period", period)
+            }
+        })
+        if(recorded==null){
+            recorded = {};
+            localStorage.setItem('recorded', JSON.stringify(recorded));
+        }
+        if(idx == null){
+            idx = 1;
+            localStorage.setItem('idx', idx);
         }
         
-      }
 
-      function saveinfo(){
-        try{
-          let inputName = document.querySelector("#playername").value;
-          let inputnum = document.querySelector("#playernum").value;
-          
-          if(inputName=='' || inputnum=='' || !inputName || !inputnum){
-            throw "제대로 된 값을 넣어주세요.";
-          }
-          playerinfo[inputnum] = inputName;
-          localStorage.setItem("playerinfo", JSON.stringify(playerinfo));
-          document.querySelector("#playername").value = '';
-          document.querySelector("#playernum").value = '';
-          let newRow = document.createElement("tr");
-          let column_num = document.createElement("td");
-          let column_name = document.createElement("td");
-          let num = document.createTextNode(inputnum);
-          column_num.appendChild(num);
-          let name = document.createTextNode(inputName);
-          column_name.appendChild(name);
+        window.onload = init();
+        
+        function init(){
+                for(let i=0; i<Object.keys(JSON.parse(localStorage.getItem("playerinfo"))).length; i++){
+                    dict = JSON.parse(localStorage.getItem("playerinfo"));
+                    let inputnum = Object.keys(dict)[i];
+                    let inputName = dict[inputnum];
+                    let div_wrap = document.createElement("div");
+                    div_wrap.className = "wrap col-md-3";
+                    div_wrap.draggable = true;
 
-          newRow.appendChild(column_num);
-          newRow.appendChild(column_name);
-          console.log(num, name, newRow);
+                    let div_img = document.createElement("div");
+                    div_img.className="image";
+                    
+                    let img = document.createElement("img");
+                    img.src = "jersy.png";
+                    img.draggable = false;
+                    let txt_tag = document.createElement("p");
+                    let txt = document.createTextNode(inputnum);
+                    txt_tag.className = "text";
+                    txt_tag.appendChild(txt);
 
-          document.querySelector("tbody").appendChild(newRow);
+                    div_img.appendChild(img);
+                    div_img.appendChild(txt_tag);
 
-        } catch(err){
-          alert(err);
-        }
-      }
+                    div_wrap.appendChild(div_img);
 
-      function init(){
-        try {
-            for(let i=0; i<Object.keys(playerinfo).length; i++) {
+                    document.querySelector(".row").appendChild(div_wrap);
+                }
 
-              let dict = JSON.parse(localStorage.getItem("playerinfo"));
-              let inputnum = JSON.parse(Object.keys(dict)[i]);
-              let inputName = dict[inputnum];
+                if(Object.keys(recorded).length>0){
+                    for (let i=1; i<idx; i++){
+                            let table2_name = recorded[i]['name'];
+                            let table2_num = recorded[i]['num']
 
-              let newRow = document.createElement("tr");
-              let column_num = document.createElement("td");
-              let column_idx = document.createElement("td");
-              let column_name = document.createElement("td");
-              let num = document.createTextNode(JSON.parse(inputnum));
-              column_num.appendChild(num);
-              let name = document.createTextNode(inputName);
-              column_name.appendChild(name);
+                            let newRow = document.createElement("tr");
+                            let column_num = document.createElement("td");
+                            let column_name = document.createElement("td");
+                            let column_idx = document.createElement("td");
+                            let column_btn = document.createElement("td");
 
-              let idx = document.createTextNode(i+1);
-              column_idx.appendChild(idx);
+                            let btn_del = document.createElement("button");
+                            btn_del.className = "btn btn-danger btn-sm";
+                            btn_del.innerHTML = "기록 삭제";
+                            btn_del.addEventListener("click", (event)=>{
+                                let btn_to_del = event.target;
+                                
+                                let row_to_del = btn_to_del.parentNode.parentNode;
+                                let del_idx = row_to_del.firstChild.innerHTML;
+                                for(let i=JSON.parse(del_idx); i<=Object.keys(recorded).length; i++){
+                                   console.log(recorded[i]);
+                                    if (i==Object.keys(recorded).length){
+                                        delete recorded[i];
+                                    } else {
+                                        let tmp = JSON.parse(JSON.stringify(recorded[i+1]));
+                                        recorded[i] = tmp;
+                                        
+                                    }
+                                    localStorage.setItem("recorded", JSON.stringify(recorded));
+                                    
+                                    
+                                     console.log(recorded[i]);
+                                }
+                                idx -= 1 ;
+                                localStorage.setItem('idx',idx);
+                                window.location.reload();
+                            })
+                            
+                        column_btn.appendChild(btn_del);
+                            
+                            
+            
+                        let numtext = document.createTextNode(table2_num);
+                        column_num.appendChild(numtext);
+                        let nametext = document.createTextNode(table2_name);
+                        column_name.appendChild(nametext);
+                        let idxtext = document.createTextNode(i);
+                        column_idx.appendChild(idxtext);
 
-              newRow.appendChild(column_idx);
-              newRow.appendChild(column_num);
-              newRow.appendChild(column_name);
-              
+                        newRow.appendChild(column_idx);
+                        newRow.appendChild(column_num);
+                        newRow.appendChild(column_name);
+                        newRow.appendChild(column_btn);
+                            
 
-              document.querySelector("tbody").appendChild(newRow);
-            }
-          }catch {}
+                        document.querySelector("tbody").appendChild(newRow);
+                            
+                        }
+                }
    
+                            }
+
+        const list = document.querySelector(".row");
+
+        let pickedplayer = null;
+        // dragstart, dragover, drop 3가지 이벤트
+        list.addEventListener("dragstart", (event)=>{
+            pickedplayer = event.target;
+        })
+    
+        list.addEventListener("dragover", (event)=>{
+            event.preventDefault(); // 기본 기능 제거: 드롭이 가능케 함
+            //console.log(event);
+        })
+
+        const rink = document.querySelector(".icerink");
+
+        rink.addEventListener("dragover", (e)=>{
+            e.preventDefault();
+
+        })
+        list.addEventListener("touchstart", (e)=>{
+            pickedplayer = e.target.parentNode;
+            console.log(pickedplayer);
+            e.preventDefault();
+        })
+        list.addEventListener("touchmove", (e)=>{
+            e.preventDefault();
+            
+
+        })
+        list.addEventListener("touchend", (e)=>{
+            let touch = e.touches[0] || e.changedTouches[0];
+            x = touch.clientX;
+            y = touch.clientY;
+            console.log(x, y);
+            idx = JSON.parse(localStorage.getItem('idx'));
+            rect = rink.getBoundingClientRect();
+            console.log(rect.left, rect.top);
+            if(x<rect.left || x>rect.right || y<rect.top || y>rect.bottom){
+                console.log("ERR");
+                return;
+            }
+            y = ((rect.bottom-y)/rect.height).toFixed(3);
+            x = ((x-rect.left)/rect.height).toFixed(3);
+            let playernum = pickedplayer.querySelector(".text").innerHTML;
+            let playername = JSON.parse(localStorage.getItem('playerinfo'))[playernum];
+            let p = period;
+
+            let newRow = document.createElement("tr");
+            let column_num = document.createElement("td");
+            let column_name = document.createElement("td");
+            let column_idx = document.createElement("td");
+            let column_btn = document.createElement("td");
+
+            let table_idx = document.createTextNode(idx);
+            column_idx.appendChild(table_idx);
+            
+            let num = document.createTextNode(playernum);
+            column_num.appendChild(num);
+            let name = document.createTextNode(playername);
+            column_name.appendChild(name);
+    
+
+            let btn_del = document.createElement("button");
+            btn_del.className = "btn btn-danger btn-sm";
+            btn_del.innerHTML = "기록 삭제";
+            btn_del.addEventListener("click", (event)=>{
+                let btn_to_del = event.target;
+                let row_to_del = btn_to_del.parentNode.parentNode;
+                let del_idx = row_to_del.firstChild.innerHTML;
+                for(let i=JSON.parse(del_idx); i<=Object.keys(recorded).length; i++){
+                    console.log(recorded[i]);
+                    if (i==Object.keys(recorded).length){
+                        delete recorded[i];
+                    } else {
+                        let tmp = JSON.parse(JSON.stringify(recorded[i+1]));
+                        recorded[i] = tmp;
+                                        
+                    }
+                    localStorage.setItem("recorded", JSON.stringify(recorded));
+
+                }
+                idx -= 1;
+                localStorage.setItem('idx',idx);
+                window.location.reload();
+            })
+        
+            column_btn.appendChild(btn_del);
+            
+            newRow.appendChild(column_idx);
+            newRow.appendChild(column_num);
+            newRow.appendChild(column_name);
+            newRow.appendChild(column_btn);
+
+            recorded[idx] = {"name":playername, "num":playernum, "x":x, "y":y, "period":p};
+
+            document.querySelector("tbody").appendChild(newRow);
+            idx ++;
+            localStorage.setItem("idx", idx);
+            localStorage.setItem("recorded", JSON.stringify(recorded));
+            
+            });
+
+        rink.addEventListener("drop", (e)=>drop(e));
+
+        function drop(e){
+            idx = JSON.parse(localStorage.getItem('idx'));
+            rect = rink.getBoundingClientRect();
+            let y = ((rect.bottom-e.y)/rect.height).toFixed(3);
+            let x = ((e.x-rect.left)/rect.height).toFixed(3);
+            let playernum = pickedplayer.querySelector(".text").innerHTML;
+            let playername = JSON.parse(localStorage.getItem('playerinfo'))[playernum];
+            let p = period;
+
+            let newRow = document.createElement("tr");
+            let column_num = document.createElement("td");
+            let column_name = document.createElement("td");
+            let column_idx = document.createElement("td");
+            let column_btn = document.createElement("td");
+
+            let table_idx = document.createTextNode(idx);
+            column_idx.appendChild(table_idx);
+            
+            let num = document.createTextNode(playernum);
+            column_num.appendChild(num);
+            let name = document.createTextNode(playername);
+            column_name.appendChild(name);
+    
+
+            let btn_del = document.createElement("button");
+            btn_del.className = "btn btn-danger btn-sm";
+            btn_del.innerHTML = "기록 삭제";
+            btn_del.addEventListener("click", (event)=>{
+                let btn_to_del = event.target;
+                let row_to_del = btn_to_del.parentNode.parentNode;
+                let del_idx = row_to_del.firstChild.innerHTML;
+                for(let i=JSON.parse(del_idx); i<=Object.keys(recorded).length; i++){
+                    console.log(recorded[i]);
+                    if (i==Object.keys(recorded).length){
+                        delete recorded[i];
+                    } else {
+                        let tmp = JSON.parse(JSON.stringify(recorded[i+1]));
+                        recorded[i] = tmp;
+                                        
+                    }
+                    localStorage.setItem("recorded", JSON.stringify(recorded));
+
+                }
+                idx -= 1;
+                localStorage.setItem('idx',idx);
+                window.location.reload();
+            })
+        
+            column_btn.appendChild(btn_del);
+            
+            newRow.appendChild(column_idx);
+            newRow.appendChild(column_num);
+            newRow.appendChild(column_name);
+            newRow.appendChild(column_btn);
+
+            recorded[idx] = {"name":playername, "num":playernum, "x":x, "y":y, "period":p};
+
+            document.querySelector("tbody").appendChild(newRow);
+            idx ++;
+            localStorage.setItem("idx", idx);
+            localStorage.setItem("recorded", JSON.stringify(recorded));
         }
-      
-      function moveTo(){
-        if(confirm("슈팅 기록을 시작하시겠습니까?")==true){
-          document.location.href = "record.html"; 
-        } else {
-          return;
-        }
-      }
-      window.onload = init();
     </script>
+    
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
