@@ -209,15 +209,7 @@
             e.preventDefault();
         })
         list.addEventListener("touchmove", (e)=>{
-            console.log(e);
-            let touch = e.touches[0] || e.changedTouches[0];
-            x = touch.clientX;
-            y = touch.clientY;
-            let hover = document.createElement("img");
-            hover.src = "jersy.png";
-            hover.style.top = y-50+"px";
-            hover.style.left = x-50+"px";
-            document.body.appendChild(hover);
+            e.preventDefault();
             
 
         })
