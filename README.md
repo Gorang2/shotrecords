@@ -8,7 +8,7 @@ They were writing something during the whole game, so I asked them what they are
 
 They said, Head coach gave them a role to write down 1- every shots in each period, 2- player who made that shot in our team. 
 
-And I thought, "I think I can make more convenient, more good-to-look data..." 
+And I thought, "I think I can make more convenient way which can even generate some good-to-looking datas..." 
 
 So I worked with it.
 
