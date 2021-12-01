@@ -19,5 +19,6 @@ So I worked with it.
 3. Worked with
 
 : HTML, CSS, Javascript, with some bootstrap for components & plotly for graphs.
+Used Local Stoarge to save player info, shot records.
 
 https://gorang2.github.io/shotrecords/
