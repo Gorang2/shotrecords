@@ -12,11 +12,11 @@ And I thought, "I think I can make more convenient, more good-to-look data..."
 
 So I worked with it.
 
-1. What program does
+2. What program does
 
 : You can 1- register players who is on your team, 2- Record the shots with just dragging the jersy over the Ice image, 3- Get shot datas like : How many shots happened, who shot how many of them, what location did the shots appeared, ratio of shots made by each players on the team.
 
-1. Worked with
+3. Worked with
 
 : HTML, CSS, Javascript, with some bootstrap for components & plotly for graphs.
 
