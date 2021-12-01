@@ -21,15 +21,15 @@
 
 .table-shoot-wrap {
     float: left;
-    margin-left : 20px;
+    margin-left:5%;
     height: 350px;
-    
+    width: 30%;
 }
 
 .table-shoot {
-    width:20%;
     margin-right : 20px;
 }
+
 
 .table {
     vertical-align: middle;
