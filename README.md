@@ -19,3 +19,5 @@ So I worked with it.
 1. Workd with
 
 : HTML, CSS, Javascript, with some bootstrap for components & plotly for graphs.
+
+https://gorang2.github.io/shotrecords/
