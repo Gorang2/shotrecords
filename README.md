@@ -21,4 +21,19 @@ So I worked with it.
 : HTML, CSS, Javascript, with some bootstrap for components & plotly for graphs.
 Used Local Stoarge to save player info, shot records.
 
+- Initialize player list
+<img width="1384" alt="Screen Shot 2022-06-20 at 3 15 28 PM" src="https://user-images.githubusercontent.com/89091736/174536795-e3a5cb73-1268-4f78-8478-62342f69d771.png">
+
+- Checking Shooting with dragging the jersy image
+<img width="1440" alt="Screen Shot 2022-06-20 at 3 16 49 PM" src="https://user-images.githubusercontent.com/89091736/174536984-47f7b7d1-b213-4a8e-a2b1-4a2c62bed870.png">
+
+- Table of shots made & shots per player
+<img width="1389" alt="Screen Shot 2022-06-20 at 3 17 34 PM" src="https://user-images.githubusercontent.com/89091736/174537070-830ae429-4004-4670-9d1c-89173c3cffb6.png">
+- Scatter graphs of where shots are made
+<img width="1375" alt="Screen Shot 2022-06-20 at 3 18 12 PM" src="https://user-images.githubusercontent.com/89091736/174537168-c5e05c4b-3adc-4f66-adb0-f172ea0946e4.png">
+
+- Pie graphs of shooting percentage of team players
+<img width="895" alt="Screen Shot 2022-06-20 at 3 18 49 PM" src="https://user-images.githubusercontent.com/89091736/174537262-179b7572-0fd4-4f0b-8d15-597f3be9a8a4.png">
+
+
 https://gorang2.github.io/shotrecords/
