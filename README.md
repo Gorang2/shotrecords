@@ -2,7 +2,7 @@
 
 1. Problem I wanted to solve
 
-: Last November, there was a University Ice Hockey League for 5 korean univs : Yosei, Korea, Kwangwoon, Hanyang, and Kyunghee. I've played for Kyunghee until 2020, So I went to watch one of their games! As I watch the game, not alone but with two old-teammates, who was not competing in the game because of injury.
+: Last November, there was a University Ice Hockey League for 5 korean univs : Yosei, Korea, Kwangwoon, Hanyang, and Kyunghee. I've played for Kyunghee until 2020, So I watched them play, not alone but with two old-teammates, who was not competing in the game because of injury.
 
 They were writing something during the whole game, so I asked them what they are doing.
 
